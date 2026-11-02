@@ -1,10 +1,10 @@
 # DebridWatch
 
-Bot multiusuario de Telegram para consultar y vigilar la caducidad de cuentas de Real-Debrid, TorBox y AllDebrid. Cada credencial pertenece exclusivamente al `telegram_user_id` que la configuró; se valida antes de guardarse y se cifra con Fernet.
+Bot multiusuario de Telegram para consultar y vigilar la caducidad de cuentas de Real-Debrid, TorBox, AllDebrid, Premiumize, Debrid-Link, Offcloud y put.io. Cada credencial pertenece exclusivamente al `telegram_user_id` que la configuró; se valida antes de guardarse y se cifra con Fernet.
 
 ## Requisitos
 
-- VPS Linux con Python 3.11 o superior, acceso saliente a Telegram y a los tres proveedores.
+- VPS Linux con Python 3.11 o superior, acceso saliente a Telegram y a los proveedores configurados.
 - Dominio apuntado al VPS y HTTPS válido para el formulario web. **No recojas API Keys a través de HTTP público.**
 - Una cuenta/bot creado con [@BotFather](https://t.me/BotFather).
 
@@ -162,3 +162,7 @@ sudo journalctl -u debrid-watch -f
 - [Privacidad y cifrado](PRIVACY.md)
 
 Pagos y multi-idioma quedan fuera del alcance actual.
+
+## Proveedores integrados
+
+Real-Debrid, TorBox, AllDebrid, Premiumize, Debrid-Link, Offcloud y put.io. Las credenciales se validan consultando la API de cada proveedor; los avisos usan la fecha de caducidad que devuelva esa API. Si un proveedor no devuelve una fecha compatible con su cuenta, el alta se rechaza en lugar de guardar una fecha inventada.

@@ -38,7 +38,8 @@ class DebridService(ABC):
     async def close(self) -> None:
         await self._client.aclose()
 
-    async def _get_json(self, url: str, api_key: str, *, params: dict[str, str] | None = None) -> dict[str, Any]:
+    async def _get_json(self, url: str, api_key: str, *, params: dict[str, str] | None = None,
+                        auth_scheme: str | None = "Bearer") -> dict[str, Any]:
         # Una petición por segundo por instancia/proveedor; el bloqueo también
         # evita que un lote de usuarios exceda el límite en paralelo.
         async with self._request_lock:
@@ -47,9 +48,10 @@ class DebridService(ABC):
                 await asyncio.sleep(wait)
             self._last_request = time.monotonic()
             try:
-                response = await self._client.get(
-                    url, headers={"Authorization": f"Bearer {api_key}", "Accept": "application/json"}, params=params
-                )
+                headers = {"Accept": "application/json"}
+                if auth_scheme:
+                    headers["Authorization"] = f"{auth_scheme} {api_key}"
+                response = await self._client.get(url, headers=headers, params=params)
             except httpx.HTTPError as exc:
                 raise ProviderError("No se pudo conectar con el servicio") from exc
         if response.status_code in (401, 403):

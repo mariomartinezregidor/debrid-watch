@@ -9,8 +9,9 @@ Contrato de ``callback_data`` (forma general ``pantalla:acción[:parámetro]``):
 * ``form:<check|resend>:<servicio>[:origen]`` — espera del formulario seguro.
 * ``back:<pantalla>[:parámetros]`` y ``nav:cancel`` — navegación.
 
-Servicios válidos: ``torbox``, ``real_debrid`` y ``alldebrid``. También se
-aceptan los callback_data emitidos por versiones anteriores del bot.
+Servicios válidos: ``torbox``, ``real_debrid``, ``alldebrid``, ``premiumize``,
+``debridlink``, ``offcloud`` y ``putio``. También se aceptan callback_data
+emitidos por versiones anteriores del bot.
 """
 
 from __future__ import annotations

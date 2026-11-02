@@ -1,8 +1,8 @@
-"""Teclados inline de DebridWatch (fase de presentación, aún no conectados).
+"""Teclados inline de DebridWatch.
 
 Los callback_data siguen el esquema ``pantalla:acción[:parámetro]``. Los
 prefijos reservados son ``svc``, ``query``, ``services``, ``form``, ``back`` y
-``nav``; el enrutador central se añadirá en ``callbacks.py``.
+``nav``; el enrutador central está en ``callbacks.py``.
 """
 
 from __future__ import annotations
@@ -18,7 +18,10 @@ def main_menu_keyboard(docs_base_url: str) -> InlineKeyboardMarkup:
     """Menú raíz: selección de servicios, consultas, gestión y ayuda."""
     rows = [
         [InlineKeyboardButton(SERVICE_LABELS[name], callback_data=f"svc:{name}")]
-        for name in ("torbox", "real_debrid", "alldebrid")
+        for name in (
+            "torbox", "real_debrid", "alldebrid", "premiumize",
+            "debridlink", "offcloud", "putio",
+        )
     ]
     rows.extend([
         [InlineKeyboardButton("📅 ¿Cuándo caduca?", callback_data="query:menu")],

@@ -122,7 +122,10 @@ class CommandScreensTests(unittest.IsolatedAsyncioTestCase):
         kwargs = message.reply_text.await_args.kwargs
         self.assertIsInstance(kwargs["reply_markup"], InlineKeyboardMarkup)
         self.assertEqual(
-            {"svc:torbox", "svc:real_debrid", "svc:alldebrid", "query:menu", "services:list"},
+            {
+                "svc:torbox", "svc:real_debrid", "svc:alldebrid", "svc:premiumize",
+                "svc:debridlink", "svc:offcloud", "svc:putio", "query:menu", "services:list",
+            },
             set(callback_data(kwargs["reply_markup"])),
         )
 

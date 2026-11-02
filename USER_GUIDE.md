@@ -1,10 +1,10 @@
 # Guía de usuario de DebridWatch
 
-DebridWatch te ayuda a consultar cuándo caduca tu suscripción de Real-Debrid, TorBox o AllDebrid y te avisa cerca de la fecha para que puedas renovarla a tiempo.
+DebridWatch te ayuda a consultar cuándo caduca tu suscripción y te avisa cerca de la fecha para que puedas renovarla a tiempo. Admite Real-Debrid, TorBox, AllDebrid, Premiumize, Debrid-Link, Offcloud y put.io.
 
 ## Empezar
 
-1. Abre el bot y envía `/start`. Verás botones para TorBox, Real-Debrid, AllDebrid, consultar caducidades y gestionar tus servicios.
+1. Abre el bot y envía `/start`. Verás botones para TorBox, Real-Debrid, AllDebrid, Premiumize, Debrid-Link, Offcloud, put.io, consultar caducidades y gestionar tus servicios.
 2. Pulsa el servicio. Si todavía no está configurado, elige **➕ Añadir API Key**.
 3. En la pantalla de espera, pulsa **🔗 Abrir formulario seguro**. Escribe la API Key allí y pulsa Guardar.
 4. Vuelve a Telegram y pulsa **🔄 Ya la he guardado**. Si hace falta, **🔗 Reenviar enlace** genera un enlace nuevo; el anterior deja de servir.
@@ -18,6 +18,10 @@ El bot nunca te pide que pegues la API Key en el chat. Los chats pueden conserva
 - **Real-Debrid:** inicia sesión en el sitio oficial y consulta la sección de API/gestión de aplicaciones de tu cuenta.
 - **TorBox:** inicia sesión en el sitio o aplicación oficial y busca la sección de API Keys en la configuración de tu cuenta.
 - **AllDebrid:** inicia sesión en el sitio oficial y consulta la sección de API/gestión de claves de tu cuenta.
+- **Premiumize:** inicia sesión y busca la API Key en la sección de cuenta del sitio oficial.
+- **Debrid-Link:** genera una Private API Key desde la gestión de claves/API de tu cuenta oficial.
+- **Offcloud:** consulta la API Key en los ajustes de tu cuenta oficial de Offcloud.
+- **put.io:** crea o copia un access token desde la configuración de API/aplicaciones de tu cuenta oficial.
 
 Usa únicamente las páginas oficiales. No compartas la clave con otras personas ni la envíes por el chat del bot.
 
