@@ -34,10 +34,6 @@ input{{padding:.8rem;margin:.5rem 0 1rem}}button{{padding:.8rem;background:#146c
 def create_web_app() -> FastAPI:
     app = FastAPI(title="DebridWatch key form", docs_url=None, redoc_url=None, openapi_url=None)
 
-    @app.get("/health", response_class=PlainTextResponse)
-    async def health() -> str:
-        return "ok"
-
     @app.get("/docs/{document}")
     async def documentation(document: str) -> Response:
         if document not in {"USER_GUIDE.md", "PRIVACY.md"}:

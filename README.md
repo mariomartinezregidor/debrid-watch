@@ -55,7 +55,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-Con `WEB_FORM_BASE_URL` en HTTPS el enlace generado ya apunta a ese dominio; por eso la prueba integral del formulario requiere un proxy y un certificado válidos. Para pruebas aisladas se permite `http://localhost:8085`, pero nunca expongas esa configuración en Internet. Comprueba `http://127.0.0.1:8085/health` y abre `/start` al bot.
+Con `WEB_FORM_BASE_URL` en HTTPS el enlace generado ya apunta a ese dominio; por eso la prueba integral del formulario requiere un proxy y un certificado válidos. Para pruebas aisladas se permite `http://localhost:8085`, pero nunca expongas esa configuración en Internet. La raíz no ofrece un formulario genérico (responde 404): abre desde Telegram el enlace privado `/key/<token>` generado para tu cuenta.
 
 Las pruebas automatizadas se ejecutan con `python -m unittest discover -s tests -v`.
 
@@ -126,9 +126,10 @@ El servicio escribe logs rotativos en `debrid-watch.log` y también en el journa
 ## 5. Verificación
 
 ```bash
-curl -fsS https://expired.debrid.watch/health
-# Debe responder: ok
+sudo systemctl is-active debrid-watch
 sudo journalctl -u debrid-watch --since today
+# La raíz del dominio debe responder 404; prueba el formulario con un enlace /key/<token> del bot.
+curl -i https://expired.debrid.watch/
 ```
 
 Envía `/start` al bot, selecciona un servicio y comprueba que el botón abre el formulario bajo HTTPS. Tras una clave válida, el bot confirma el alta. Una clave inválida se rechaza sin guardarse y el formulario permite reintentar mientras el enlace siga vigente. También puedes abrir los documentos desde los botones informativos de `/start`.

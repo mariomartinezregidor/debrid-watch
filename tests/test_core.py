@@ -120,6 +120,15 @@ class WebFormTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual([], await self.db.list_services(888))
         self.assertIn("sigue disponible", response.text)
 
+    async def test_only_key_routes_and_allowlisted_documents_are_exposed(self):
+        self.assertEqual(404, (await self.client.get("/")).status_code)
+        self.assertEqual(404, (await self.client.get("/health")).status_code)
+        self.assertEqual(200, (await self.client.get("/docs/USER_GUIDE.md")).status_code)
+        self.assertEqual(200, (await self.client.get("/docs/PRIVACY.md")).status_code)
+        self.assertEqual(404, (await self.client.get("/docs/other-file.txt")).status_code)
+        traversal = await self.client.get("/docs/%2e%2e%2fetc%2fpasswd")
+        self.assertEqual(404, traversal.status_code)
+
 
 if __name__ == "__main__":
     unittest.main()
