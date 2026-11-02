@@ -13,7 +13,7 @@ from telegram.ext import Application
 from config import load_settings
 from crypto import KeyCipher
 from database import Database
-from handlers import queries, services_menu, start
+from handlers import callbacks, queries, services_menu, start
 from scheduler_jobs import configure_scheduler
 from services import SERVICE_CLASSES
 from web_form.app import create_web_app
@@ -51,6 +51,7 @@ async def run() -> None:
     start.register(application)
     services_menu.register(application)
     queries.register(application)
+    callbacks.register(application)
     configure_scheduler(application, settings.scheduler_hour_utc)
 
     web_app = create_web_app()
