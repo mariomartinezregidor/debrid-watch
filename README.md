@@ -34,7 +34,7 @@ Edita `.env` en el VPS, sustituyendo los valores de ejemplo:
 ```dotenv
 TELEGRAM_BOT_TOKEN=PEGA_AQUI_EL_TOKEN_ENTREGADO_POR_BOTFATHER
 FERNET_KEY=PEGA_AQUI_LA_CLAVE_FERNET_GENERADA
-WEB_FORM_BASE_URL=https://debrid.ejemplo.com
+WEB_FORM_BASE_URL=https://expired.debrid.watch
 WEB_FORM_PORT=8085
 SCHEDULER_HOUR_UTC=8
 LOG_LEVEL=INFO
@@ -68,7 +68,7 @@ El proceso escucha únicamente en `127.0.0.1:WEB_FORM_PORT`; publícalo solo a t
 Instala Caddy y añade a `/etc/caddy/Caddyfile`:
 
 ```caddy
-debrid.ejemplo.com {
+expired.debrid.watch {
     reverse_proxy 127.0.0.1:8085
 }
 ```
@@ -82,7 +82,7 @@ Instala Nginx/Certbot. Crea un virtual host con proxy a `127.0.0.1:8085`, por ej
 ```nginx
 server {
     listen 80;
-    server_name debrid.ejemplo.com;
+    server_name expired.debrid.watch;
     location / {
         proxy_pass http://127.0.0.1:8085;
         proxy_set_header Host $host;
@@ -95,7 +95,7 @@ server {
 }
 ```
 
-Después de validar/recargar Nginx, ejecuta `sudo certbot --nginx -d debrid.ejemplo.com` y comprueba la renovación automática. Ajusta `WEB_FORM_BASE_URL` a `https://debrid.ejemplo.com`. No habilites registros de acceso que capturen la ruta completa `/key/<token>`: el token permite abrir temporalmente el formulario.
+Después de validar/recargar Nginx, ejecuta `sudo certbot --nginx -d expired.debrid.watch` y comprueba la renovación automática. Ajusta `WEB_FORM_BASE_URL` a `https://expired.debrid.watch`. No habilites registros de acceso que capturen la ruta completa `/key/<token>`: el token permite abrir temporalmente el formulario.
 
 ## 4. Despliegue con systemd
 
@@ -126,7 +126,7 @@ El servicio escribe logs rotativos en `debrid-watch.log` y también en el journa
 ## 5. Verificación
 
 ```bash
-curl -fsS https://debrid.ejemplo.com/health
+curl -fsS https://expired.debrid.watch/health
 # Debe responder: ok
 sudo journalctl -u debrid-watch --since today
 ```
