@@ -1,0 +1,25 @@
+[Unit]
+Description=DebridWatch Telegram bot and secure key form
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=debridwatch
+Group=debridwatch
+WorkingDirectory=/opt/debrid-watch
+EnvironmentFile=/opt/debrid-watch/.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/debrid-watch/.venv/bin/python /opt/debrid-watch/main.py
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/debrid-watch
+
+[Install]
+WantedBy=multi-user.target
