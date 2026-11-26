@@ -33,9 +33,13 @@ async def _query_one(user_id: int, service_name: str, context: ContextTypes.DEFA
             return f"{SERVICE_LABELS[service_name]} | Sin configurar | —"
         return f"No tienes {SERVICE_LABELS[service_name]} configurado."
     cipher: KeyCipher = context.application.bot_data["cipher"]
+    settings = context.application.bot_data.get("settings")
+    cache_ttl = getattr(settings, "api_cache_ttl_seconds", 300) if settings else 300
     try:
-        expiration = await context.application.bot_data["providers"][service_name].get_expiration(
-            cipher.decrypt(item["api_key_encrypted"])
+        # Reutilizar una respuesta muy reciente evita duplicar llamadas cuando
+        # el usuario consulta varios servicios seguidos.
+        expiration = await context.application.bot_data["providers"][service_name].get_cached_expiration(
+            cipher.decrypt(item["api_key_encrypted"]), ttl=min(cache_ttl, 300)
         )
         await db.update_check(user_id, service_name, expiration)
         days = days_remaining(expiration)

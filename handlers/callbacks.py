@@ -228,7 +228,7 @@ async def _dispatch(route: CallbackRoute, query, context: ContextTypes.DEFAULT_T
                 back_data = f"back:svc:{service_name}"
             else:
                 back_data = "back:query:menu"
-            result_markup = keyboards.query_result_keyboard(back_data)
+            result_markup = keyboards.query_result_keyboard(back_data, [service_name])
             await query.edit_message_text("Consultando el servicio…", reply_markup=result_markup)
             result = await _query_one(user_id, service_name, context)
             await query.edit_message_text(screens.query_result_text(result), reply_markup=result_markup)
@@ -238,7 +238,9 @@ async def _dispatch(route: CallbackRoute, query, context: ContextTypes.DEFAULT_T
             if not services:
                 await _show_query_menu(query, context)
                 return
-            result_markup = keyboards.query_result_keyboard()
+            result_markup = keyboards.query_result_keyboard(
+                "back:query:menu", [item["service_name"] for item in services]
+            )
             await query.edit_message_text("Consultando tus servicios…", reply_markup=result_markup)
             results = await asyncio.gather(*[
                 _query_one(user_id, item["service_name"], context, table_row=True)

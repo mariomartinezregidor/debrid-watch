@@ -45,14 +45,18 @@ async def run() -> None:
     db = Database(settings.database_path)
     await db.initialize()
     cipher = KeyCipher(settings.fernet_key)
-    providers = {name: service_class() for name, service_class in SERVICE_CLASSES.items()}
+    providers = {
+        name: service_class(cache_ttl=settings.api_cache_ttl_seconds,
+                            min_interval=settings.api_min_interval_seconds)
+        for name, service_class in SERVICE_CLASSES.items()
+    }
     application = Application.builder().token(settings.telegram_bot_token).build()
     application.bot_data.update({"settings": settings, "db": db, "cipher": cipher, "providers": providers})
     start.register(application)
     services_menu.register(application)
     queries.register(application)
     callbacks.register(application)
-    configure_scheduler(application, settings.scheduler_hour_utc)
+    configure_scheduler(application, settings.scheduler_hour_utc, settings.extra_check_hours_utc)
 
     web_app = create_web_app()
     web_app.state.db = db

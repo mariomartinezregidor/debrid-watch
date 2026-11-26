@@ -32,7 +32,9 @@ Usa únicamente las páginas oficiales. No compartas la clave con otras personas
 - Envía `/mis_servicios` o pulsa **⚙️ Mis servicios**. Elige un servicio para abrir su detalle.
 - En el detalle puedes consultar su caducidad, **🔄 Actualizar API Key** o **🗑️ Eliminar API Key**. El borrado siempre pide confirmación con **✅ Sí, eliminar**; **❌ Cancelar** vuelve al detalle sin borrar nada.
 
-El bot realiza una comprobación automática diaria. Solo envía avisos a 7, 3 y 1 día, y un aviso cuando la suscripción caduca. No repite el mismo aviso cada día; una renovación permite avisos para el nuevo periodo. Si el proveedor no responde o limita las consultas, no recibirás avisos de esos errores.
+El bot realiza comprobaciones automáticas (configurables; por defecto una al día, con comprobaciones adicionales opcionales). Envía avisos a 14, 7, 3 y 1 día, y otro cuando la suscripción caduca. No repite el mismo aviso: al renovar, los avisos se reinician para el nuevo periodo. Si el proveedor limita las consultas, el bot espera al tiempo indicado por el proveedor antes de volver a intentarlo.
+
+Los avisos de **TorBox**, **Real-Debrid** y **AllDebrid** incluyen un botón **💳 Renovar ahora** que abre directamente la página oficial de renovación de tu proveedor. El bot nunca te pedirá datos de pago; también verás ese botón al consultar la caducidad o abrir el detalle del servicio.
 
 ## Si una clave deja de funcionar
 

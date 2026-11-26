@@ -39,9 +39,28 @@ WEB_FORM_PORT=8085
 SCHEDULER_HOUR_UTC=8
 LOG_LEVEL=INFO
 DATABASE_PATH=/opt/debrid-watch/debrid_watch.sqlite3
+ALERT_THRESHOLDS_DAYS=14,7,3,1
+EXTRA_CHECK_HOURS_UTC=20
+CHECK_FRESHNESS_HOURS=12
+URGENT_CHECK_HOURS=2
+API_CACHE_TTL_SECONDS=900
+API_MIN_INTERVAL_SECONDS=1.0
 ```
 
-`WEB_FORM_BASE_URL` es la URL HTTPS pública que abrirá el usuario. `WEB_FORM_PORT` es el puerto local al que se enlaza FastAPI, normalmente detrás del proxy. El job diario se ejecuta a la hora UTC indicada (0–23). `DATABASE_PATH` puede ser relativo o absoluto. `.env` y las bases SQLite están excluidos por `.gitignore`.
+`WEB_FORM_BASE_URL` es la URL HTTPS pública que abrirá el usuario. `WEB_FORM_PORT` es el puerto local al que se enlaza FastAPI, normalmente detrás del proxy. El job principal se ejecuta a la hora UTC indicada (0–23). `DATABASE_PATH` puede ser relativo o absoluto. `.env` y las bases SQLite están excluidos por `.gitignore`.
+
+### Notificaciones inteligentes
+
+| Variable | Valor por defecto | Uso |
+| --- | --- | --- |
+| `ALERT_THRESHOLDS_DAYS` | `14,7,3,1` | Días restantes que disparan un aviso (más un aviso al caducar). |
+| `EXTRA_CHECK_HOURS_UTC` | vacío | Horas UTC adicionales de comprobación, separadas por comas (ej. `20`). |
+| `CHECK_FRESHNESS_HOURS` | `16` | Horas que se reutiliza una fecha ya consultada en cuentas no urgentes. |
+| `URGENT_CHECK_HOURS` | `2` | Horas que se reutiliza la fecha en cuentas que caducan en ≤ 7 días. |
+| `API_CACHE_TTL_SECONDS` | `900` | Tiempo de vida de la caché en memoria por credencial. |
+| `API_MIN_INTERVAL_SECONDS` | `1.0` | Espacio mínimo entre peticiones a un mismo proveedor. |
+
+Los avisos de TorBox, Real-Debrid y AllDebrid incluyen un botón con el enlace oficial de renovación. El bot no procesa pagos: el enlace abre la página del proveedor. Las consultas manuales y el job comparten caché; las respuestas HTTP 429 respetan `Retry-After` (o aplican backoff exponencial) y bloquean nuevas llamadas durante el enfriamiento.
 
 ## 2. Instalar y probar localmente
 

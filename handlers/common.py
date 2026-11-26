@@ -24,8 +24,9 @@ def format_date(value: datetime | None) -> str:
     return value.astimezone(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")
 
 
-def days_remaining(value: datetime) -> int:
-    seconds = (value - datetime.now(timezone.utc)).total_seconds()
+def days_remaining(value: datetime, now: datetime | None = None) -> int:
+    current = now or datetime.now(timezone.utc)
+    seconds = (value - current).total_seconds()
     # Redondeo hacia arriba: en el punto de comprobación diario se conserva
     # el umbral durante sus últimas 24 horas completas.
     import math

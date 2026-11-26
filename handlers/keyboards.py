@@ -11,6 +11,7 @@ from collections.abc import Sequence
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
+from renewal import renewal_url
 from services import SERVICE_LABELS
 
 
@@ -42,6 +43,9 @@ def service_detail_keyboard(service_name: str, configured: bool,
     suffix = ":from_services" if origin == "services" else ""
     if configured:
         query_origin = "from_svc_services" if origin == "services" else "from_svc"
+        url = renewal_url(service_name)
+        if url:
+            rows.append([InlineKeyboardButton("💳 Renovar suscripción", url=url)])
         rows.extend([
             [InlineKeyboardButton("📅 ¿Cuándo caduca?", callback_data=f"query:{service_name}:{query_origin}")],
             [InlineKeyboardButton("🔄 Actualizar API Key", callback_data=f"svc:{service_name}:update{suffix}")],
@@ -110,9 +114,16 @@ def form_waiting_keyboard(service_name: str, form_url: str,
     ])
 
 
-def query_result_keyboard(back_data: str = "back:query:menu") -> InlineKeyboardMarkup:
-    """Navegación desde el resultado de una consulta manual."""
-    return InlineKeyboardMarkup([
+def query_result_keyboard(back_data: str = "back:query:menu",
+                          services: Sequence[str] = ()) -> InlineKeyboardMarkup:
+    """Navegación desde una consulta, con renovación directa si aplica."""
+    rows = [
+        [InlineKeyboardButton(f"💳 Renovar {SERVICE_LABELS[name]}", url=url)]
+        for name in services
+        if name in SERVICE_LABELS and (url := renewal_url(name))
+    ]
+    rows.extend([
         [InlineKeyboardButton("🔙 Volver", callback_data=back_data)],
         [InlineKeyboardButton("🏠 Menú principal", callback_data="back:menu")],
     ])
+    return InlineKeyboardMarkup(rows)
